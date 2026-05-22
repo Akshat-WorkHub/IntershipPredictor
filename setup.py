@@ -15,9 +15,6 @@ def get_requirements(filepath: str) -> List[str]:
         if HYPHEN in req:
             req.remove(HYPHEN)
         return req
-        
-
-
 
 setup(
     name='IntershipPredictor', # Project Name
