@@ -1,0 +1,30 @@
+academic_reliability:
+  drift_status: false
+  p_value: 0.19741655965504223
+candidate_score:
+  drift_status: false
+  p_value: 0.9901020726627392
+experience_total:
+  drift_status: false
+  p_value: 0.321957642856821
+high_risk_flag:
+  drift_status: true
+  p_value: 0.010603138444996031
+max_soft_skill:
+  drift_status: false
+  p_value: 0.8611993423567413
+max_tech_skill:
+  drift_status: false
+  p_value: 0.6425142831060999
+no_experience_flag:
+  drift_status: false
+  p_value: 1.0
+selected:
+  drift_status: false
+  p_value: 0.0740907085904973
+tech_candidate_multiplier:
+  drift_status: false
+  p_value: 0.6133567979013504
+technical_score:
+  drift_status: false
+  p_value: 0.6425142831060999

@@ -19,14 +19,16 @@ Model_Threshold: float = 0.05 # (Used to define Overfitting or Underfitting)
 
 Transformation_Imputer_Params: dict = {
     "missing_values" : np.nan,
-    "n_neighbours" : 3,
+    "n_neighbors" : 3,
     "weights" : "uniform"
 }
 
 #==========================================================
 # File Names
 
-Raw_Data_Filename: str = "Intership_Selection_Dataset.csv"
+Raw_Data_dir: str = "data"
+Raw_Data_File1: str = "Internship_Selection_Dataset.csv"
+Raw_Data_File2: str = "Final_Cleaned_Dataset.csv"
 
 Train_Filename: str = "train.csv"
 Test_Filename: str = "test.csv"
@@ -35,7 +37,7 @@ Preprocessor_Obj: str = "preprocessor.pkl"
 Drift_Report_Filename: str = "driftReport.yaml"
 
 #==========================================================
-# Directiories
+# Directiories in Artifacts
 
 MainDir: str = "artifact"
 

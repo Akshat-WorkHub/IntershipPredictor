@@ -1,0 +1,47 @@
+columns:
+  - student_id: int64
+  - CGPA: float64
+  - skills_score: int64
+  - projects_count: int64
+  - internships_done: int64
+  - communication_score: int64
+  - aptitude_score: int64
+  - coding_test_score: int64
+  - resume_score: int64
+  - extracurricular: object
+  - college_tier: object
+  - hackathons_participated: int64
+  - certifications_count: int64
+  - linkedin_activity_score: int64
+  - github_score: int64
+  - soft_skills_score: int64
+  - interview_score: int64
+  - consistency_score: int64
+  - backlogs: int64
+  - placement_training: object
+  - selected: int64
+
+numerical_columns:
+  - student_id
+  - CGPA
+  - skills_score
+  - projects_count
+  - internships_done
+  - communication_score
+  - aptitude_score
+  - coding_test_score
+  - resume_score
+  - hackathons_participated
+  - certifications_count
+  - linkedin_activity_score
+  - github_score
+  - soft_skills_score
+  - interview_score
+  - consistency_score
+  - backlogs
+  - selected
+
+categorical_columns:
+  - extracurricular
+  - college_tier
+  - placement_training

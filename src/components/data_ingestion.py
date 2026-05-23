@@ -1,18 +1,9 @@
 import os,sys
-import numpy as np
 import pandas as pd
 
-from pymongo.mongo_client import MongoClient
-import certifi
-ca = certifi.where()
-
-from dotenv import load_dotenv
-load_dotenv()
-MONGO_DB_URL = os.getenv("MONGO_DB_URL")
-
-from typing import List
 from sklearn.model_selection import train_test_split
 
+from src import constant as const
 from src.exception.exception import CustomException
 from src.logger.log import logging
 
@@ -24,46 +15,27 @@ class DataIngestion:
         try:
             self.ingestion_config = ingestion_config
         except Exception as e:
-            try:
-                raise CustomException(e,sys)
-            except CustomException as ce:
-                print(ce)
+            raise CustomException(e,sys)
 
-    def export_from_mongodb_collection_as_df(self):
-        '''
-            Takes Data from Raw Data Filepath and convert it into DataFrame and return DataFrame.
-        '''
+    def export_raw_data(self,dataframe: pd.DataFrame):
         try:
-            df = pd.read_csv('Internship_Selection_Dataset.csv')
+            raw_data_dir = self.ingestion_config.raw_dir
+            os.makedirs(raw_data_dir,exist_ok=True)
 
-            return df
-        except Exception as e:
-            try:
-                raise CustomException(e,sys)
-            except CustomException as ce:
-                print(ce)
+            data_filepath = self.ingestion_config.raw_filepath2
 
-    def export_data_into_feature_store(self,dataframe: pd.DataFrame):
-        try:
-            features_store_dir = self.ingestion_config.feature_store_dir
-            os.makedirs(features_store_dir,exist_ok=True)
-
-            data_filepath = self.ingestion_config.data_filepath
+            logging.info(f"Exporting raw data to: {data_filepath}")
             dataframe.to_csv(data_filepath,index=False,header=True)
+            logging.info("Raw data export successful.")
 
-            return dataframe
         except Exception as e:
-            try:
-                raise CustomException(e,sys)
-            except CustomException as ce:
-                print(ce)
+            raise CustomException(e,sys)
 
     def split_train_test_data(self,df: pd.DataFrame):
         try:
             train_df, test_df = train_test_split(df,test_size=self.ingestion_config.split,random_state=42)
             logging.info("Created Train and Test Data from phishing Data's Dataframe")
 
-            # ingested_dir = os.path.dirname(self.ingestion_config.train_filepath)
             ingested_dir = self.ingestion_config.ingested_dir
             os.makedirs(ingested_dir,exist_ok=True)
             logging.info("Ingested Directory Successfully created")
@@ -72,27 +44,23 @@ class DataIngestion:
             test_df.to_csv(self.ingestion_config.test_filepath,index=False,header=True)
             logging.info("Train and Test data saved in ingested folder's files")
 
-
         except Exception as e:
-            try:
-                raise CustomException(e,sys)
-            except CustomException as ce:
-                print(ce)
-
+            raise CustomException(e,sys)
 
     def initiate_data_ingestion(self):
         try:
-            df = self.export_from_mongodb_collection_as_df()
-            dataframe = self.export_data_into_feature_store(df)
-            self.split_train_test_data(dataframe)
+            data_filepath = os.path.join(os.getcwd(),const.Raw_Data_dir,const.Raw_Data_File1)
+            df = pd.read_csv(data_filepath)
+            self.export_raw_data(df)
+            self.split_train_test_data(df)
 
-            data_ingestion_artifact = DataIngestionArtifact(self.ingestion_config.train_filepath,self.ingestion_config.test_filepath)
+            data_ingestion_artifact = DataIngestionArtifact(
+                self.ingestion_config.train_filepath,
+                self.ingestion_config.test_filepath
+            )
 
             return data_ingestion_artifact
 
 
         except Exception as e:
-            try:
-                raise CustomException(e,sys)
-            except CustomException as ce:
-                print(ce)
+            raise CustomException(e,sys)

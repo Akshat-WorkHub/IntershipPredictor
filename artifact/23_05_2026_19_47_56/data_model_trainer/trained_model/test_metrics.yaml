@@ -1,0 +1,4 @@
+!!python/object:src.entity.artifact_entity.ClassificationMetricsArtifact
+f1_score: 0.8633780404637418
+precision_score: 0.7596
+recall_score: 1.0

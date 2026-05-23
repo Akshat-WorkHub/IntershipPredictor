@@ -1,0 +1,63 @@
+CGPA:
+  drift_status: false
+  p_value: 0.46441255559088096
+aptitude_score:
+  drift_status: false
+  p_value: 0.12361707420604622
+backlogs:
+  drift_status: true
+  p_value: 0.010603138444996031
+certifications_count:
+  drift_status: false
+  p_value: 0.6911387437318768
+coding_test_score:
+  drift_status: false
+  p_value: 0.8973700695428244
+college_tier:
+  drift_status: false
+  p_value: 0.6814411122097321
+communication_score:
+  drift_status: false
+  p_value: 0.8762639026325755
+consistency_score:
+  drift_status: false
+  p_value: 0.9949279007921046
+extracurricular:
+  drift_status: false
+  p_value: 0.9999933410502173
+github_score:
+  drift_status: false
+  p_value: 0.7578334699699261
+hackathons_participated:
+  drift_status: false
+  p_value: 0.26922803183873095
+internships_done:
+  drift_status: false
+  p_value: 1.0
+interview_score:
+  drift_status: false
+  p_value: 0.17411528336298424
+linkedin_activity_score:
+  drift_status: false
+  p_value: 0.38920216640800254
+placement_training:
+  drift_status: false
+  p_value: 0.7200375260837398
+projects_count:
+  drift_status: false
+  p_value: 0.4910705274840193
+resume_score:
+  drift_status: false
+  p_value: 0.21251586638418485
+selected:
+  drift_status: false
+  p_value: 0.0740907085904973
+skills_score:
+  drift_status: false
+  p_value: 0.9165331645472689
+soft_skills_score:
+  drift_status: false
+  p_value: 0.8688262709667917
+student_id:
+  drift_status: false
+  p_value: 0.34344782451738876
