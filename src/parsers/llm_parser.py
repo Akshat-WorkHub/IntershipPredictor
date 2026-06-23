@@ -1,13 +1,16 @@
 from langchain_groq import ChatGroq
-from src.parsers.llm_prompt import prompt
-from src.parsers.loader import ResumeLoader
-from src.parsers.pydantic_models import (ResumeData)
+from src.parsers.llm_prompt import prompt, jd_prompt, roadmap_prompt
+from src.parsers.loader import ResumeLoader, JobDescriptionLoader
+from src.parsers.pydantic_models import ResumeData, JobDescriptionData, LearningRoadmap
 
 from dotenv import load_dotenv
 load_dotenv()
 
+class BaseLLMService:
 
-class LLMResumeParser:
+    schema = None
+    prompt_template = None
+
     def __init__(self):
 
         self.llm = ChatGroq(
@@ -16,40 +19,46 @@ class LLMResumeParser:
         )
 
         self.structured_llm = (
-            self.llm.with_structured_output(ResumeData)
+            self.llm.with_structured_output(
+                self.schema
+            )
         )
 
-        self.chain = prompt | self.structured_llm
+        self.chain = self.prompt_template | self.structured_llm 
+
+    def invoke_chain(self, payload):
+
+        response = self.chain.invoke(payload)
+        return response.model_dump()
+
+
+
+class LLMResumeParser(BaseLLMService):
+
+    schema = ResumeData
+    prompt_template = prompt
 
     def parse(self, filepath):
         resume_object = ResumeLoader()
         resume_text = resume_object.generate(filepath)
 
-        response = self.chain.invoke({
+        return self.invoke_chain({
             "resume_text": resume_text
         })
-
-        return response.model_dump()
     
-class FeatureBuilder:
-    def build(self, resume_profile):
+class LLMJDParser(BaseLLMService):
 
-        return {
-            "projects_count":
-                len(resume_profile["projects"]),
+    schema = JobDescriptionData
+    prompt_template = jd_prompt
 
-            "internships_done":
-                len(resume_profile["internships"]),
+    def parse(self, filepath):
+        jd_object = JobDescriptionLoader()
+        jd_text = jd_object.get_job_description_text(filepath)
 
-            "certifications_count":
-                len(resume_profile["certifications"]),
-
-            "hackathons_participated":
-                len(resume_profile["hackathons"]),
-
-            "extracurricular":
-                1 if resume_profile["extracurriculars"] else 0
-        }
+        return self.invoke_chain({
+            "job_description_text": jd_text
+        })
+    
 
 
 

@@ -81,3 +81,168 @@ class ResumeData(BaseModel):
     achievements: list[str] = Field(
         description="Awards, achievements, recognitions"
     )
+
+    resume_score: int = Field(
+        description="Overall resume quality score from 1 to 10."
+    )
+
+    consistency_score: int = Field(
+        description="Consistency between academics, skills, projects, internships and certifications. Score between 1 and 10."
+    )
+
+class JobDescriptionData(BaseModel):
+
+    required_skills: list[str] = Field(
+        description="Technical and non technical skills required for the job"
+    )
+
+    preferred_skills: list[str] = Field(
+        description="Nice to have skills"
+    )
+
+    responsibilities: list[str] = Field(
+        description="Main job responsibilities"
+    )
+
+    qualifications: list[str] = Field(
+        description="Educational and experience requirements"
+    )
+
+    certifications: list[str] = Field(
+        description="Required or preferred certifications"
+    )
+
+class WeekPlan(BaseModel):
+
+    week: int = Field(
+        description="Week number"
+    )
+
+    focus: str = Field(
+        description="Primary learning objective"
+    )
+
+    topics: list[str] = Field(
+        description="Topics to learn during this week"
+    )
+
+    resources: list[str] = Field(
+        description="Learning resources"
+    )
+
+    project: str = Field(
+        description="Mini project for practice"
+    )
+
+class RoadmapRequest(BaseModel):
+
+    missing_skills: list[str] = Field(
+        description="Missing skills sent by frontend for roadmap generation"
+    )
+
+class LearningRoadmap(BaseModel):
+
+    missing_skills: list[str] = Field(
+        description="Skills identified as missing from resume"
+    )
+
+    roadmap: list[WeekPlan] = Field(
+        description="Four week learning roadmap"
+    )
+
+class InterviewRequest(BaseModel):
+
+    interview_mode: str = Field(
+        description="""
+        Interview mode selected by the user.
+
+        Possible values:
+        - Technical Round
+        - HR Round
+        - Project Discussion
+        - Full Mock Interview
+        """,
+        examples=["Full Mock Interview"]
+    )
+
+    number_of_questions: int = Field(
+        description="Number of interview questions to generate."
+    )
+
+    resume_data: ResumeData = Field(
+        description="Parsed resume information."
+    )
+
+    jd_data: JobDescriptionData = Field(
+        description="Parsed job description information."
+    )
+
+    missing_skills: list[str] = Field(
+        description="Skills missing from the candidate profile."
+    )
+
+class InterviewQuestion(BaseModel):
+
+    question: str = Field(
+        description="Interview question generated for the selected category."
+    )
+
+    difficulty: str = Field(
+        description="Difficulty level of the question.",
+        examples=[
+            "Easy",
+            "Medium",
+            "Hard"
+        ]
+    )
+
+    category: str = Field(
+        description="Question category.",
+        examples=[
+            "Technical",
+            "Project Based",
+            "HR",
+            "Scenario Based"
+        ]
+    )
+
+class InterviewQuestionSet(BaseModel):
+
+    questions: list[InterviewQuestion] = Field(
+        description="List of interview questions generated for the interview session."
+    )
+
+class InterviewEvaluation(BaseModel):
+
+    score: float = Field(
+        description="Score awarded to the user's answer on a scale of 0 to 10.",
+        ge=0,
+        le=10,
+        examples=[8.5]
+    )
+
+    strengths: list[str] = Field(
+        description="Positive aspects identified in the user's answer."
+    )
+
+    improvements: list[str] = Field(
+        description="Areas where the answer can be improved."
+    )
+
+    ideal_answer: str = Field(
+        description="A model answer that demonstrates an excellent response to the interview question."
+    )
+
+class InterviewAnswerRequest(BaseModel):
+
+    question: str = Field(
+        description="Interview question answered by the user."
+    )
+
+    answer: str = Field(
+        description="User's response to the interview question."
+    )
+
+    category: str = Field(
+        description="Interview category of the question."
+    )
