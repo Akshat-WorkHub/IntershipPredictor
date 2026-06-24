@@ -1,5 +1,4 @@
 from langchain_core.prompts import PromptTemplate
-from langchain_core.prompts import ChatPromptTemplate
 
 prompt = PromptTemplate(
     template="""
@@ -173,4 +172,46 @@ Return output matching the InterviewQuestionSet schema.
         "jd_data",
         "missing_skills"
     ]
+)
+
+evaluation_prompt = PromptTemplate(
+    template="""
+You are an expert technical interviewer and hiring manager.
+
+Evaluate the candidate's complete interview performance.
+
+Candidate Answers:
+{answers}
+
+Instructions:
+
+For each question:
+- Assign a score between 0 and 10
+- Assign a status:
+    * Excellent
+    * Good
+    * Average
+    * Poor
+    * Not Attempted
+- Provide feedback
+- List strengths
+- List improvements
+- Generate an ideal answer
+
+Special Rule:
+If the candidate answer is empty or marked as "I don't know":
+- score = 0
+- status = "Not Attempted"
+
+Also generate:
+- overall_score
+- attempted_questions
+- unattempted_questions
+- strengths
+- improvements
+- questions_to_revise
+
+Return only the structured output.
+""",
+    input_variables=["answers"]
 )

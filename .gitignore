@@ -221,3 +221,6 @@ artifact/
 logs/
 final_models/
 mlruns/
+.postman
+data/
+postman/

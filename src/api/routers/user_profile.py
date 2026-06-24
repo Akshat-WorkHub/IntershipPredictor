@@ -27,15 +27,11 @@ async def generate_profile(
     
     resume_service = ResumeService()
     file_content = await resume.read()
-
-    filepath = resume_service.save_resume(file_content)
-    profile_result = resume_service.parse_resume(filepath)
+    profile_result = resume_service.parse(file_content)
 
     jd_service = JobDescriptionService()
     jd_file_content = await job_description.read()
-
-    jd_filepath = jd_service.save_jd(jd_file_content)
-    jd_result = jd_service.parse_jd(jd_filepath)
+    jd_result = jd_service.parse(jd_file_content)
 
     skill_gap_result = jd_service.compare_skills(
         resume_data=profile_result,

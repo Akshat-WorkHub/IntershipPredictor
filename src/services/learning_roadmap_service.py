@@ -1,4 +1,4 @@
-from src.parsers.llm_parser import BaseLLMService
+from src.parsers.llm import BaseLLMService
 from src.parsers.llm_prompt import roadmap_prompt
 from src.parsers.pydantic_models import LearningRoadmap
 

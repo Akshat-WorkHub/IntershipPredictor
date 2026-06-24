@@ -1,7 +1,36 @@
 import streamlit as st
 import requests
+import bootstrap
+from src.utils.session_storage import load_profile, save_evaluation
+
 
 st.title("🎤 AI Mock Interview")
+
+if st.session_state.get(
+    "interview_completed",
+    False
+):
+
+    st.success(
+        "Interview Submitted Successfully 🎉"
+    )
+
+    if st.button(
+        "📖 View Interview Analysis",
+        use_container_width=True
+    ):
+        st.switch_page(
+            "pages/interview_analysis.py"
+        )
+
+    st.stop()
+
+if "profile_result" not in st.session_state:
+
+    profile = load_profile()
+    if profile:
+        st.session_state["profile_result"] = profile
+
 
 if "profile_result" not in st.session_state:
     st.warning(
@@ -37,7 +66,7 @@ if not st.session_state.get(
 
     if st.button(
         "🚀 Start Interview",
-        use_container_width=True
+        width='stretch'
     ):
 
         profile_data = (
@@ -60,13 +89,12 @@ if not st.session_state.get(
             response_data = response.json()
 
             st.session_state["interview_questions"] = response_data["questions"]
+            st.session_state["answers"] = {}
+            st.session_state["scores"] = []
+
 
             st.session_state["current_question"] = 0
-            st.session_state["answers"] = {}
-
-            st.session_state["scores"] = []
             st.session_state["interview_started"] = True
-
             st.session_state["interview_completed"] = False
 
             st.rerun()
@@ -87,7 +115,6 @@ if st.session_state.get(
     total_questions = len(questions)
 
     current_idx = st.session_state["current_question"]
-
     question = questions[current_idx]
 
     progress = (
@@ -165,7 +192,7 @@ if st.session_state.get(
 
             if st.button(
                 "⬅ Previous Question",
-                use_container_width=True
+                width='stretch'
             ):
 
                 st.session_state["answers"][current_idx] = {
@@ -174,6 +201,9 @@ if st.session_state.get(
 
                     "answer":
                         answer,
+                    
+                    "category": 
+                        question["category"],
 
                     "dont_know":
                         dont_know
@@ -195,7 +225,7 @@ if st.session_state.get(
 
             if st.button(
                 "Next Question ➡️",
-                use_container_width=True
+                width='stretch'
             ):
 
                 if (
@@ -216,6 +246,9 @@ if st.session_state.get(
                         "answer":
                             answer,
 
+                        "category": 
+                            question["category"],
+
                         "dont_know":
                             dont_know
                     }
@@ -231,7 +264,7 @@ if st.session_state.get(
 
             if st.button(
                 "🚀 Submit Interview",
-                use_container_width=True
+                width='stretch'
             ):
 
                 if (
@@ -244,28 +277,43 @@ if st.session_state.get(
                     )
 
                 else:
-
-                    st.session_state["answers"][
-                        current_idx
-                    ] = {
+                    st.session_state["answers"][current_idx] = {
                         "question":
                             question["question"],
-
                         "answer":
                             answer,
+
+                        "category": 
+                            question["category"],
 
                         "dont_know":
                             dont_know
                     }
 
-                    st.session_state["interview_completed"] = True
-
-                    st.page_link(
-                        "pages/interview_analysis.py",
-                        label="📊 View Interview Analysis"
+                    response = requests.post(
+                        url="http://127.0.0.1:8000/interview/evaluate",
+                        json={
+                            "answers": st.session_state["answers"],
+                        }
                     )
 
-                    st.success(
-                        "Interview Submitted Successfully 🎉"
-                    )
+                    if response.status_code == 200:
+                        st.session_state["evaluation_report"] = (
+                            response.json()
+                        )
+                        save_evaluation(
+                            st.session_state["evaluation_report"]
+                        )
+
+                        st.session_state["interview_completed"] = True
+                        st.success(
+                            "Interview Submitted Successfully 🎉"
+                        )
+                        st.rerun()
+
+                    else:
+
+                        st.error(
+                            "Failed to evaluate interview."
+                        )
 

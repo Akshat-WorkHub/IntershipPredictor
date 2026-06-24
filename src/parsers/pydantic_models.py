@@ -212,27 +212,6 @@ class InterviewQuestionSet(BaseModel):
         description="List of interview questions generated for the interview session."
     )
 
-class InterviewEvaluation(BaseModel):
-
-    score: float = Field(
-        description="Score awarded to the user's answer on a scale of 0 to 10.",
-        ge=0,
-        le=10,
-        examples=[8.5]
-    )
-
-    strengths: list[str] = Field(
-        description="Positive aspects identified in the user's answer."
-    )
-
-    improvements: list[str] = Field(
-        description="Areas where the answer can be improved."
-    )
-
-    ideal_answer: str = Field(
-        description="A model answer that demonstrates an excellent response to the interview question."
-    )
-
 class InterviewAnswerRequest(BaseModel):
 
     question: str = Field(
@@ -245,4 +224,92 @@ class InterviewAnswerRequest(BaseModel):
 
     category: str = Field(
         description="Interview category of the question."
+    )
+
+
+class QuestionEvaluation(BaseModel):
+
+    question: str = Field(
+        description="Interview question."
+    )
+
+    candidate_answer: str = Field(
+        description="Candidate's submitted answer."
+    )
+
+    category: str = Field(
+        description="Question category."
+    )
+
+    score: float = Field(
+        description="Score awarded for this answer on a scale of 0 to 10.",
+        ge=0,
+        le=10,
+        examples=[8.5]
+    )
+
+    status: str = Field(
+        description="Evaluation status of the answer.",
+        examples=[
+            "Excellent",
+            "Good",
+            "Average",
+            "Poor",
+            "Not Attempted"
+        ]
+    )
+
+    feedback: str = Field(
+        description="Constructive feedback explaining the score."
+    )
+
+    strengths: list[str] = Field(
+        description="Strong points identified in the answer."
+    )
+
+    improvements: list[str] = Field(
+        description="Areas where the answer can be improved."
+    )
+
+    ideal_answer: str = Field(
+        description="An ideal response demonstrating a high-quality answer."
+    )
+
+class InterviewEvaluationRequest(BaseModel):
+
+    answers: dict = Field(
+        description="All interview questions and candidate answers collected during the interview session."
+    )
+
+class InterviewEvaluation(BaseModel):
+
+    overall_score: float = Field(
+        description="Overall interview score on a scale of 0 to 10.",
+        ge=0,
+        le=10,
+        examples=[7.8]
+    )
+
+    attempted_questions: int = Field(
+        description="Number of questions attempted by the candidate."
+    )
+
+    unattempted_questions: int = Field(
+        description="Number of questions marked as 'I don't know'."
+    )
+
+    strengths: list[str] = Field(
+        description="Overall strengths observed across the interview."
+    )
+
+    improvements: list[str] = Field(
+        description="Overall improvement areas identified across the interview."
+    )
+
+    questions_to_revise: list[str] = Field(
+        description="Topics or questions the candidate should revisit."
+    )
+
+    question_analysis: list[QuestionEvaluation] = Field(
+        description="Detailed evaluation of each interview question."
     )

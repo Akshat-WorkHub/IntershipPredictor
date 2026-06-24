@@ -1,5 +1,13 @@
 import streamlit as st
 import requests
+import bootstrap
+from src.utils.session_storage import save_profile, load_profile
+
+if "profile_result" not in st.session_state:
+
+    profile = load_profile()
+    if profile:
+        st.session_state["profile_result"] = profile
 
 st.set_page_config(
     page_title="CareerPrep",
@@ -12,7 +20,7 @@ col1, col2 = st.columns([1, 3])
 with col1:
     st.image(
         "src/frontend/logo/logo.png",
-        use_container_width=True
+        width='stretch'
     )
 
 with col2:
@@ -105,7 +113,7 @@ if (resume_file and jd_file) or ("profile_result" in st.session_state):
 
     if st.button(
         "🚀 Generate Candidate Profile",
-        use_container_width=True
+        width='stretch'
     ):
 
         response = requests.post(
@@ -139,6 +147,7 @@ if (resume_file and jd_file) or ("profile_result" in st.session_state):
 
         if response.status_code == 200:
             st.session_state["profile_result"] = response.json()
+            save_profile(st.session_state["profile_result"])
 
         else:
             st.error(response.text)
@@ -259,7 +268,7 @@ if (resume_file and jd_file) or ("profile_result" in st.session_state):
             with col1:
                 if st.button(
                     "📖 View Roadmap",
-                    use_container_width=True
+                    width='stretch'
                 ):
                     st.switch_page(
                         "pages/roadmap.py"
@@ -268,7 +277,7 @@ if (resume_file and jd_file) or ("profile_result" in st.session_state):
             with col2:
                 if st.button(
                     "🎤 Start Mock Interview",
-                    use_container_width=True
+                    width='stretch'
                 ):
                     st.switch_page(
                         "pages/mock_interview.py"

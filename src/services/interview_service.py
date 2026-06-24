@@ -1,6 +1,6 @@
-from src.parsers.llm_parser import BaseLLMService
-from src.parsers.pydantic_models import InterviewQuestionSet
-from src.parsers.llm_prompt import interview_question_prompt
+from src.parsers.llm import BaseLLMService
+from src.parsers.pydantic_models import InterviewQuestionSet, InterviewEvaluation
+from src.parsers.llm_prompt import interview_question_prompt, evaluation_prompt
 
 class InterviewService(BaseLLMService):
 
@@ -24,3 +24,14 @@ class InterviewService(BaseLLMService):
                 "missing_skills": missing_skills
             }
         )
+    
+class InterviewEvaluationService(BaseLLMService):
+
+    schema = InterviewEvaluation
+    prompt_template = evaluation_prompt
+
+    def evaluate_interview(self, answers):
+        
+        return self.invoke_chain({
+                "answers": answers
+            })

@@ -1,7 +1,7 @@
 import os, pickle
 import pandas as pd
 
-class PredictionService:
+class MLModelLoader:
     def __init__(self):
         root_dir = os.path.abspath(os.path.join( os.path.dirname(__file__), "..", ".." ))
         models_dir = os.path.join(root_dir,"final_models")
@@ -17,8 +17,20 @@ class PredictionService:
         )
 
         self.validate_model_files(preprocessor_path, model_path)
+
         self.preprocessor = self.load_preprocessor(preprocessor_path)
         self.model = self.load_model(model_path)
+
+    def load_preprocessor(self, preprocessor_path):
+
+        with open(preprocessor_path, "rb") as file:
+            return pickle.load(file)
+
+    def load_model(self, model_path):
+
+        with open(model_path, "rb") as file:
+            return pickle.load(file)
+        
 
     def validate_model_files(self, preprocessor_path, model_path):
         missing_files = []
@@ -34,16 +46,7 @@ class PredictionService:
                 f"Missing model artifacts: {', '.join(missing_files)}"
             )
 
-    def load_preprocessor(self, preprocessor_path):
-
-        with open(preprocessor_path, "rb") as file:
-            return pickle.load(file)
-
-    def load_model(self, model_path):
-
-        with open(model_path, "rb") as file:
-            return pickle.load(file)
-
+class PredictionService(MLModelLoader):
     
     def predict(self, features: dict):
         df = pd.DataFrame([features])
