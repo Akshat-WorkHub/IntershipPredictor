@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CareerPrep | AI Mock Interview</title>
+
+    <!-- Google Font -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="css/global.css">
+
+    <link rel="stylesheet"
+          href="css/interview.css?v=2">
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo-section">
+
+            <img src="assets/logo.png"
+                 alt="Logo">
+
+            <div>
+
+                <h1>CareerPrep</h1>
+
+                <p>
+
+                    AI Mock Interview
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+        <!-- ======================================
+                    SETUP CARD
+        ======================================= -->
+
+        <section
+            class="setup-card"
+            id="setupCard">
+
+            <h2>
+
+                <i class="fa-solid fa-microphone-lines"></i>
+
+                Configure Interview
+
+            </h2>
+
+            <div class="setup-grid">
+
+                <div class="input-group">
+
+                    <label>
+
+                        Interview Mode
+
+                    </label>
+
+                    <select id="interviewMode">
+
+                        <option value="HR Round">
+
+                            HR
+
+                        </option>
+
+                        <option value="Technical Round">
+
+                            Technical
+
+                        </option>
+
+                        <option value="Project Discussion">
+                            
+                            Project Discussion
+                            
+                        </option>
+
+                        <option value="Full Mock Interview">
+
+                            Mixed
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>
+
+                        Difficulty
+
+                    </label>
+
+                    <select id="difficulty">
+
+                        <option value="Easy">
+
+                            Easy
+
+                        </option>
+
+                        <option value="Medium">
+
+                            Medium
+
+                        </option>
+
+                        <option value="Hard">
+
+                            Hard
+
+                        </option>
+
+                        <option value="Mixed" selected>
+
+                            Mixed
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>
+
+                        Number of Questions
+
+                    </label>
+
+                    <select id="questionCount">
+
+                         <option value="1">
+
+                            1
+
+                        </option>
+
+                         <option value="3">
+
+                            3
+
+                        </option>
+
+                        <option value="5">
+
+                            5
+
+                        </option>
+
+                        <option value="10">
+
+                            10
+
+                        </option>
+
+                        <option value="15">
+
+                            15
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="button-container">
+
+                <button
+                    id="startInterview"
+                    type="button">
+
+                    <i class="fa-solid fa-play"></i>
+
+                    Start Interview
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- ======================================
+                INTERVIEW CARD
+        ======================================= -->
+
+        <section
+            class="interview-card"
+            id="interviewCard">
+
+            <!-- Progress -->
+
+            <div class="progress-header">
+
+                <h2 id="questionCounter">
+
+                    Question 1 / 5
+
+                </h2>
+
+                <div class="progress-container">
+
+                    <div
+                        class="progress-bar"
+                        id="progressBar">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Category -->
+
+            <div class="badge-container">
+
+                <span
+                    class="badge"
+                    id="categoryBadge">
+
+                    Technical
+
+                </span>
+
+            </div>
+
+            <!-- Question -->
+
+            <div class="question-box">
+
+                <h3>
+
+                    Question
+
+                </h3>
+
+                <p
+                    id="questionText">
+
+                </p>
+
+            </div>
+
+            <!-- Answer -->
+
+            <div class="answer-box">
+
+                <label>
+
+                    Your Answer
+
+                </label>
+
+                <textarea
+
+                    id="answerInput"
+
+                    rows="10"
+
+                    placeholder="Type your answer here...">
+
+                </textarea>
+
+                <label class="dont-know-option">
+
+                    <input
+                        type="checkbox"
+                        id="dontKnowInput">
+
+                    <span>
+
+                        I don't know the answer
+
+                    </span>
+
+                </label>
+
+            </div>
+
+            <!-- Buttons -->
+
+            <div class="navigation-buttons">
+
+                <button
+
+                    id="previousBtn"
+
+                    type="button">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Previous
+
+                </button>
+
+                <button
+
+                    id="nextBtn"
+
+                    type="button">
+
+                    Next
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </div>
+
+            <div class="submit-container">
+
+                <button
+
+                    id="submitInterview"
+
+                    type="button">
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    Submit Interview
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- JS -->
+
+    <script src="js/config.js?v=3"></script>
+
+    <script src="js/storage.js?v=2"></script>
+
+    <script src="js/api.js?v=3"></script>
+
+    <script src="js/interview.js?v=3"></script>
+
+</body>
+
+</html>

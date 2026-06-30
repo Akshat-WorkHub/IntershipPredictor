@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CareerPrep | Interview Analysis</title>
+
+    <!-- Google Font -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="css/global.css">
+
+    <link rel="stylesheet"
+          href="css/analysis.css">
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo-section">
+
+            <img src="assets/logo.png"
+                 alt="CareerPrep Logo">
+
+            <div>
+
+                <h1>CareerPrep</h1>
+
+                <p>
+
+                    AI Interview Analysis
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+        <!-- =====================================
+                PERFORMANCE SUMMARY
+        ====================================== -->
+
+        <section class="summary-card">
+
+            <h2 id="summaryTitle">
+
+                Excellent Performance
+
+            </h2>
+
+            <p id="summaryText">
+
+                Loading interview summary...
+
+            </p>
+
+        </section>
+
+        <!-- =====================================
+                OVERALL SCORE
+        ====================================== -->
+
+        <section class="score-card">
+
+            <div class="score-circle">
+
+                <h1 id="overallScore">
+
+                    0.0
+
+                </h1>
+
+                <span>
+
+                    /10
+
+                </span>
+
+            </div>
+
+            <h2>
+
+                Overall Interview Score
+
+            </h2>
+
+        </section>
+
+        <!-- =====================================
+                STATS
+        ====================================== -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <h3>
+
+                    Attempted
+
+                </h3>
+
+                <h2 id="attemptedQuestions">
+
+                    0
+
+                </h2>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>
+
+                    Unattempted
+
+                </h3>
+
+                <h2 id="unattemptedQuestions">
+
+                    0
+
+                </h2>
+
+            </div>
+
+        </section>
+
+        <!-- =====================================
+                STRENGTHS
+        ====================================== -->
+
+        <section class="analysis-card">
+
+            <h2>
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                Strengths
+
+            </h2>
+
+            <ul id="strengthList">
+
+            </ul>
+
+        </section>
+
+        <!-- =====================================
+                IMPROVEMENTS
+        ====================================== -->
+
+        <section class="analysis-card">
+
+            <h2>
+
+                <i class="fa-solid fa-arrow-trend-up"></i>
+
+                Areas for Improvement
+
+            </h2>
+
+            <ul id="improvementList">
+
+            </ul>
+
+        </section>
+
+        <!-- =====================================
+                QUESTIONS TO REVISE
+        ====================================== -->
+
+        <section class="analysis-card">
+
+            <h2>
+
+                <i class="fa-solid fa-book-open"></i>
+
+                Questions to Revise
+
+            </h2>
+
+            <ul id="revisionList">
+
+            </ul>
+
+        </section>
+
+        <!-- =====================================
+            QUESTION ANALYSIS
+        ====================================== -->
+
+        <section class="analysis-card">
+
+            <h2>
+
+                <i class="fa-solid fa-list-check"></i>
+
+                Question-wise Analysis
+
+            </h2>
+
+            <div id="questionAnalysis">
+
+            </div>
+
+        </section>
+
+        <!-- =====================================
+                BUTTONS
+        ====================================== -->
+
+        <div class="button-container">
+
+            <button
+                id="roadmapBtn"
+                type="button">
+
+                <i class="fa-solid fa-map"></i>
+
+                View Personalized Roadmap
+
+            </button>
+
+            <button
+                id="restartBtn"
+                type="button">
+
+                <i class="fa-solid fa-rotate-right"></i>
+
+                Start New Interview
+
+            </button>
+
+        </div>
+
+    </main>
+
+    <!-- JS -->
+
+    <script src="js/config.js"></script>
+
+    <script src="js/storage.js"></script>
+    <script src="js/analysis.js"></script>
+
+</body>
+
+</html>

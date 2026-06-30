@@ -1,0 +1,817 @@
+File : src\frontend\app.py
+
+import streamlit as st
+import requests
+import bootstrap
+from src.utils.session_storage import save_profile, load_profile
+
+if "profile_result" not in st.session_state:
+
+    profile = load_profile()
+    if profile:
+        st.session_state["profile_result"] = profile
+
+st.set_page_config(
+    page_title="CareerPrep",
+    page_icon="🎯",
+    layout="wide"
+)
+
+col1, col2 = st.columns([2, 3])
+
+with col1:
+    st.image(
+        "src/frontend/logo/logo.png",
+        width=200
+    )
+
+with col2:
+    st.markdown(
+        """
+        <div style="padding-top:10px">
+            <h1 style="margin-bottom:0;">CareerPrep</h1>
+            <p style="margin-top:0;">
+                AI Interview Preparation Assistant :
+                Analyze, Improve, and Succeed in Your Career Journey.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+st.divider()
+
+resume_col, job_description_col = st.columns(2)
+
+with resume_col:
+    st.subheader("📄 Upload Resume")
+
+    resume_file = st.file_uploader(
+        "Upload PDF Resume",
+        type=["pdf"]
+    )
+
+with job_description_col:
+    st.subheader("💼 Job Description")
+
+    jd_file = st.file_uploader(
+        "Upload Job Description",
+        type=["pdf"]
+    )
+
+if (resume_file and jd_file) or ("profile_result" in st.session_state):
+    st.success("Both Resume and Job Description uploaded successfully")
+
+    st.divider()
+
+    st.subheader("📊 Additional Information")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        github_url = st.text_input(
+            "GitHub Profile URL (Optional)"
+        )
+
+        communication_score = st.slider(
+            "Communication Skill",
+            1, 10, 5
+        )
+
+        coding_score = st.slider(
+            "Coding Skill",
+            1, 10, 5
+        )
+
+        aptitude_score = st.slider(
+            "Aptitude Skill",
+            1, 10, 5
+        )
+
+    with col2:
+
+        soft_skills_score = st.slider(
+            "Soft Skills",
+            1, 10, 5
+        )
+
+        backlogs = st.number_input(
+            "Backlogs",
+            min_value=0,
+            value=0
+        )
+
+        college_tier = st.selectbox(
+            "College Tier",
+            ["Tier 1", "Tier 2", "Tier 3"]
+        )
+
+        placement_training = st.selectbox(
+            "Placement Training",
+            ["Yes", "No"]
+        )
+
+    st.divider()
+
+    if st.button(
+        "🚀 Generate Candidate Profile"
+    ):
+
+        response = requests.post(
+            url="http://127.0.0.1:8000/profile/generate",
+
+            files={
+                "resume": (
+                    resume_file.name,
+                    resume_file.getvalue(),
+                    "application/pdf"
+                ),
+
+                "job_description": (
+                    jd_file.name,
+                    jd_file.getvalue(),
+                    "application/pdf"
+                )
+            },
+
+            data={
+                "github_url": github_url,
+                "communication_score": communication_score,
+                "coding_score": coding_score,
+                "aptitude_score": aptitude_score,
+                "soft_skills_score": soft_skills_score,
+                "backlogs": backlogs,
+                "college_tier": college_tier,
+                "placement_training": placement_training
+            }
+        )
+
+        if response.status_code == 200:
+            st.session_state["profile_result"] = response.json()
+            save_profile(st.session_state["profile_result"])
+
+        else:
+            st.error(response.text)
+
+    if "profile_result" in st.session_state:
+        response_data = st.session_state["profile_result"]
+
+        result, pred_prob ,skill_gap = (
+            response_data["Result"], 
+            response_data["prediction_probability"], 
+            response_data["skill_gap"]
+        )
+
+        confidence_titles = [
+            "🎉 Strong Match Detected",
+            "⚡ Moderate Match", 
+            "⚠️ Improvement Needed"
+        ]
+
+        confidence_messages = [
+            "Your profile shows a high likelihood of passing the initial screening stage.",
+            "Your profile aligns reasonably well, but improving missing skills could increase your chances.",
+            "There are noticeable gaps between your profile and the target role."
+        ]
+
+        if pred_prob >= 80:
+            confidence_title = confidence_titles[0]
+            confidence_message = confidence_messages[0]
+            bg, color = "#83f274", "#082b11"
+
+        elif pred_prob >= 60:
+            confidence_title = confidence_titles[1]
+            confidence_message = confidence_messages[1]
+            bg, color =  "#ecf14c", "#131603",
+
+        else:
+            confidence_title = confidence_titles[2]
+            confidence_message = confidence_messages[2]
+            bg, color = "#83f274", "#082b11"
+
+        st.subheader("🎯 Screening Confidence")
+
+        st.progress(pred_prob / 100)
+        st.metric("Selection Probability",f"{pred_prob}%")
+        st.markdown(
+            f"""
+            <div style="
+                background-color:{bg};
+                color:{color};
+                padding:10px;
+                border-radius:20px;
+                border-left:10px solid #ffffff;
+            ">
+                <h5>{confidence_title}</h5>
+                <p style="font-size:14px; font-weight:650;">
+                    {confidence_message}
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        match_percent = skill_gap['match_percentage']
+        
+        if match_percent >= 80:
+            compatibility_level, background_palette, color_palette  = "Excellent Match 🟢", "#064E3B", "#34D399" 
+
+        elif match_percent >= 60:
+            compatibility_level, background_palette, color_palette   = "Good Match 🟡", "#78350F", "#FBBF24"
+
+        elif match_percent >= 40:
+            compatibility_level, background_palette, color_palette   = "Average Match 🟠", "#7C2D12", "#FB923C"
+
+        else:
+            compatibility_level, background_palette, color_palette   = "Weak Match 🔴", "#7F1D1D", "#F7D4D4"
+
+        st.subheader("📄 Resume-JD Compatibility")
+        
+        st.progress(match_percent / 100)
+        st.metric("Compatibility Score",f"{match_percent:.2f}%")
+        st.markdown(
+            f"""
+            <div style="
+                background-color:{background_palette};
+                color:{color_palette};
+                padding:10px;
+                border-radius:10px;
+                border-left:10px solid #ffffff;
+                margin-bottom: 10px;
+            ">
+                <h5>{compatibility_level}</h5>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        if st.button("🚀 Create Personalized Roadmap"):
+
+            roadmap_response = requests.post(
+                "http://127.0.0.1:8000/roadmap/generate",
+                json={
+                    "missing_skills": skill_gap["missing_skills"]
+                }
+            )
+
+            if roadmap_response.status_code == 200:
+                st.session_state["roadmap"] = (
+                    roadmap_response.json()
+                )
+
+                st.session_state["generate_roadmap"] = True
+
+        if st.session_state.get("generate_roadmap",False):
+            st.success("Roadmap Generated Successfully")
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+                if st.button(
+                    "📖 View Roadmap",
+                ):
+                    st.switch_page(
+                        "pages/roadmap.py"
+                    )
+
+            with col2:
+                if st.button(
+                    "🎤 Start Mock Interview",
+                ):
+                    st.switch_page(
+                        "pages/mock_interview.py"
+                    )
+
+
+File : src\frontend\pages\roadmap.py
+
+import streamlit as st
+import bootstrap
+
+st.title(
+    "📚 Personalized Learning Roadmap"
+)
+
+if "roadmap" not in st.session_state:
+    st.warning("Please generate a roadmap first.")
+    st.stop()
+
+roadmap_data = st.session_state["roadmap"]
+
+st.markdown("## 🎯 Missing Skills")
+
+skills_html = ""
+
+for skill in roadmap_data["missing_skills"]:
+    skills_html += f"""
+    <span style="
+        background-color:#1E293B;
+        color:white;
+        padding:8px 15px;
+        margin:5px;
+        border-radius:20px;
+        display:inline-block;
+        font-size:16px;
+    ">
+        {skill.title()}
+    </span>
+    """
+
+st.markdown(skills_html, unsafe_allow_html=True)
+
+st.subheader("🗓️ Learning Plan")
+
+for week in roadmap_data["roadmap"]:
+
+    with st.expander(
+        f"Week {week['week']} - {week['focus']}",
+        expanded=True
+    ):
+
+        st.markdown("### Topics")
+
+        for topic in week["topics"]:
+            st.write(f"• {topic}")
+
+        st.markdown("### Resources")
+
+        for resource in week["resources"]:
+            st.write(f"• {resource}")
+
+        st.markdown("### Project")
+
+        st.success(
+            week["project"]
+        )
+
+File : src\frontend\pages\mock_interview.py
+
+import streamlit as st
+import requests
+import bootstrap
+from src.utils.session_storage import load_profile, save_evaluation
+
+
+st.title("🎤 AI Mock Interview")
+
+if st.session_state.get(
+    "interview_completed",
+    False
+):
+
+    st.success(
+        "Interview Submitted Successfully 🎉"
+    )
+
+    if st.button(
+        "📖 View Interview Analysis",
+        use_container_width=True
+    ):
+        st.switch_page(
+            "pages/interview_analysis.py"
+        )
+
+    st.stop()
+
+if "profile_result" not in st.session_state:
+
+    profile = load_profile()
+    if profile:
+        st.session_state["profile_result"] = profile
+
+
+if "profile_result" not in st.session_state:
+    st.warning(
+        "Please generate a candidate profile first."
+    )
+    st.stop()
+
+# ==========================
+# Interview Setup Section
+# ==========================
+
+if not st.session_state.get(
+    "interview_started",
+    False
+):
+
+    st.divider()
+
+    interview_mode = st.selectbox(
+        "Interview Mode",
+        [
+            "Technical Round",
+            "HR Round",
+            "Project Discussion",
+            "Full Mock Interview"
+        ]
+    )
+
+    question_count = st.selectbox(
+        "Number of Questions",
+        [1, 3, 5, 10]
+    )
+
+    if st.button(
+        "🚀 Start Interview"
+    ):
+
+        profile_data = (
+            st.session_state["profile_result"]
+        )
+
+        response = requests.post(
+            url="http://127.0.0.1:8000/interview/generate",
+            json={
+                "interview_mode": interview_mode,
+                "number_of_questions": question_count,
+                "resume_data": profile_data["resume_data"],
+                "jd_data": profile_data["jd_data"],
+                "missing_skills": profile_data["missing_skills"]
+            }
+        )
+
+        if response.status_code == 200:
+
+            response_data = response.json()
+
+            st.session_state["interview_questions"] = response_data["questions"]
+            st.session_state["answers"] = {}
+            st.session_state["scores"] = []
+
+
+            st.session_state["current_question"] = 0
+            st.session_state["interview_started"] = True
+            st.session_state["interview_completed"] = False
+
+            st.rerun()
+
+        else:
+            st.error(response.text)
+
+# ==========================
+# Interview Section
+# ==========================
+
+if st.session_state.get(
+    "interview_started",
+    False
+):
+
+    questions = st.session_state["interview_questions"]
+    total_questions = len(questions)
+
+    current_idx = st.session_state["current_question"]
+    question = questions[current_idx]
+
+    progress = (
+        (current_idx + 1) / total_questions
+    )
+
+    st.divider()
+
+    st.subheader(
+        f"Question {current_idx + 1} of {total_questions}"
+    )
+
+    st.progress(progress)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.info(
+            f"Category: {question['category']}"
+        )
+
+    with col2:
+        st.info(
+            f"Difficulty: {question['difficulty']}"
+        )
+
+    st.markdown(
+        f"""
+    ### ❓ Interview Question
+
+    {question['question']}
+    """
+    )
+
+    saved_answer = (
+        st.session_state["answers"]
+        .get(current_idx, {})
+    )
+
+    default_answer = (
+        saved_answer.get(
+            "answer",
+            ""
+        )
+    )
+
+    default_dont_know = saved_answer.get("dont_know",False)
+
+    dont_know = st.checkbox(
+        "I don't know the answer",
+        value=default_dont_know,
+        key=f"dont_know_{current_idx}"
+    )
+
+    answer = st.text_area(
+        "Your Answer",
+        value=default_answer,
+        height=250,
+        disabled=dont_know,
+        key=f"answer_box_{current_idx}"
+    )
+
+
+
+    
+
+    col1, col2 = st.columns(2)
+    # ==========================
+    # Previous Question
+    # ==========================
+
+    with col1:
+
+        if current_idx > 0:
+
+            if st.button(
+                "⬅ Previous Question"
+            ):
+
+                st.session_state["answers"][current_idx] = {
+                    "question":
+                        question["question"],
+
+                    "answer":
+                        answer,
+                    
+                    "category": 
+                        question["category"],
+
+                    "dont_know":
+                        dont_know
+                }
+
+                st.session_state["current_question"] -= 1
+
+                st.rerun()
+
+    # ==========================
+    # Next / Submit
+    # ==========================
+
+    with col2:
+
+        # Not Last Question
+
+        if current_idx < total_questions - 1:
+
+            if st.button(
+                "Next Question ➡️"
+            ):
+
+                if (
+                    not answer.strip()
+                    and not dont_know
+                ):
+
+                    st.warning(
+                        "Please provide an answer or select 'I don't know the answer'."
+                    )
+
+                else:
+
+                    st.session_state["answers"][current_idx] = {
+                        "question":
+                            question["question"],
+
+                        "answer":
+                            answer,
+
+                        "category": 
+                            question["category"],
+
+                        "dont_know":
+                            dont_know
+                    }
+
+                    st.session_state["current_question"] += 1
+                    st.rerun()
+
+        # ==========================
+        # Last Question
+        # ==========================
+
+        else:
+
+            if st.button(
+                "🚀 Submit Interview"
+            ):
+
+                if (
+                    not answer.strip()
+                    and not dont_know
+                ):
+
+                    st.warning(
+                        "Please provide an answer or select 'I don't know the answer'."
+                    )
+
+                else:
+                    st.session_state["answers"][current_idx] = {
+                        "question":
+                            question["question"],
+                        "answer":
+                            answer,
+
+                        "category": 
+                            question["category"],
+
+                        "dont_know":
+                            dont_know
+                    }
+
+                    response = requests.post(
+                        url="http://127.0.0.1:8000/interview/evaluate",
+                        json={
+                            "answers": st.session_state["answers"],
+                        }
+                    )
+
+                    if response.status_code == 200:
+                        st.session_state["evaluation_report"] = (
+                            response.json()
+                        )
+                        save_evaluation(
+                            st.session_state["evaluation_report"]
+                        )
+
+                        st.session_state["interview_completed"] = True
+                        st.success(
+                            "Interview Submitted Successfully 🎉"
+                        )
+                        st.rerun()
+
+                    else:
+
+                        st.error(
+                            "Failed to evaluate interview."
+                        )
+
+File : src\frontend\pages\interview_analysis.py
+
+import streamlit as st
+import bootstrap
+from src.utils.session_storage import (
+    load_evaluation
+)
+
+
+if "evaluation_report" not in st.session_state:
+    report = load_evaluation()
+    if report:
+        st.session_state["evaluation_report"] = report
+
+st.set_page_config(
+    page_title="Interview Analysis",
+    page_icon="📊",
+    layout="wide"
+)
+
+st.title("📊 Interview Analysis")
+st.caption("Review your interview performance and identify areas for improvement.")
+
+if "evaluation_report" not in st.session_state:
+    st.warning("No interview analysis available.")
+    st.stop()
+
+report = st.session_state["evaluation_report"]
+
+st.subheader("🎯 Overall Performance")
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric(
+        "Overall Score",
+        f"{report['overall_score']}/10"
+    )
+
+with col2:
+    st.metric(
+        "Attempted",
+        report["attempted_questions"]
+    )
+
+with col3:
+    st.metric(
+        "Not Attempted",
+        report["unattempted_questions"]
+    )
+
+st.divider()
+col1, col2 = st.columns(2)
+
+with col1:
+
+    st.subheader("💪 Strengths")
+
+    for item in report["strengths"]:
+        st.success(item)
+
+with col2:
+
+    st.subheader("🚀 Areas for Improvement")
+
+    for item in report["improvements"]:
+        st.warning(item)
+
+st.divider()
+st.subheader("📚 Questions To Revise")
+
+for item in report["questions_to_revise"]:
+    st.info(item)
+
+
+st.divider()
+st.subheader("📝 Question Wise Analysis")
+
+for idx, question in enumerate(
+    report["question_analysis"],
+    start=1
+):
+
+    with st.expander(
+        f"Question {idx} • {question['status']} • Score {question['score']}/10"
+    ):
+
+        st.markdown(
+            f"**Question:** {question['question']}"
+        )
+
+        st.markdown(
+            f"**Category:** {question['category']}"
+        )
+
+        st.markdown(
+            f"**Your Answer:**"
+        )
+
+        st.write(
+            question["candidate_answer"]
+        )
+
+        st.markdown(
+            f"**Feedback:**"
+        )
+
+        st.info(
+            question["feedback"]
+        )
+
+        st.markdown(
+            "**Strengths:**"
+        )
+
+        for item in question["strengths"]:
+            st.success(item)
+
+        st.markdown(
+            "**Improvements:**"
+        )
+
+        for item in question["improvements"]:
+            st.warning(item)
+
+        st.markdown(
+            "**Ideal Answer:**"
+        )
+
+        st.code(
+            question["ideal_answer"]
+        )
+
+st.divider()
+
+if st.button(
+    "🔄 Retake Interview"
+):
+    keys_to_clear = [
+        "interview_started",
+        "interview_completed",
+        "current_question",
+        "interview_questions",
+        "answers",
+        "evaluation_report"
+    ]
+
+    for key in keys_to_clear:
+
+        if key in st.session_state:
+            del st.session_state[key]
+
+    st.switch_page(
+        "pages/mock_interview.py"
+    )

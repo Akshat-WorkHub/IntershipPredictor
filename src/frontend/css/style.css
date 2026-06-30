@@ -1,0 +1,336 @@
+/* ==========================================================
+   HOME PAGE
+========================================================== */
+
+/* Upload Section */
+
+.upload-card{
+
+    animation:fadeIn .6s ease;
+}
+
+.upload-grid{
+
+    margin-top:30px;
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:25px;
+
+}
+
+/* Upload Box */
+
+.upload-box{
+
+    position:relative;
+
+}
+
+.upload-box label{
+
+    height:220px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:20px;
+
+    cursor:pointer;
+
+    border:2px dashed rgba(255,255,255,.15);
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.03);
+
+    transition:.3s;
+
+}
+
+.upload-box label:hover{
+
+    border-color:#4f8cff;
+
+    background:rgba(79,140,255,.08);
+
+    transform:translateY(-4px);
+
+}
+
+.upload-box i{
+
+    font-size:55px;
+
+    color:#4f8cff;
+
+}
+
+.upload-box span{
+
+    font-size:17px;
+
+    font-weight:500;
+
+}
+
+.upload-box input{
+
+    display:none;
+
+}
+
+/* ==========================================================
+   FORM
+========================================================== */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:50px;
+
+    margin-top:30px;
+
+}
+
+.form-column{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+
+}
+
+.input-group{
+
+    position:relative;
+
+}
+
+/* Slider */
+
+.input-group input[type="range"]{
+
+    width:100%;
+
+}
+
+.input-group span{
+
+    margin-top:8px;
+
+    display:inline-block;
+
+    font-weight:600;
+
+    color:#60a5fa;
+
+}
+
+/* ==========================================================
+   BUTTON
+========================================================== */
+
+.button-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-top:45px;
+
+}
+
+.button-container button{
+
+    min-width:320px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+}
+
+/* ==========================================================
+   RESULT
+========================================================== */
+
+.result-section{
+
+    margin-top:40px;
+
+}
+
+.result-card{
+
+    margin-bottom:35px;
+
+}
+
+.result-card h3{
+
+    margin-top:20px;
+
+    font-size:32px;
+
+    text-align:center;
+
+    color:#60a5fa;
+
+}
+
+.status-card{
+
+    font-size:15px;
+
+    line-height:1.7;
+
+}
+
+/* ==========================================================
+   SUCCESS COLORS
+========================================================== */
+
+.success{
+
+    border-left:6px solid #22c55e;
+
+}
+
+.warning{
+
+    border-left:6px solid #facc15;
+
+}
+
+.danger{
+
+    border-left:6px solid #ef4444;
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:1000px){
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+
+        gap:30px;
+
+    }
+
+    .upload-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .container{
+
+        width:95%;
+
+    }
+
+    .logo-section{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+    .logo-section img{
+
+        width:60px;
+
+        height:60px;
+
+    }
+
+    .logo-section h1{
+
+        font-size:26px;
+
+    }
+
+    .upload-box label{
+
+        height:180px;
+
+    }
+
+    .button-container button{
+
+        width:100%;
+
+        min-width:unset;
+
+    }
+
+}
+
+@media(max-width:500px){
+
+    .upload-card,
+    .form-card,
+    .result-card{
+
+        padding:22px;
+
+    }
+
+    h2{
+
+        font-size:24px;
+
+    }
+
+}
+
+/* ==========================================================
+   ANIMATION
+========================================================== */
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Interview Preparation</title>
+
+    <link rel="stylesheet"
+        href="css/global.css">
+
+    <link
+        rel="stylesheet"
+        href="css/interview-preparation.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo-section">
+
+            <img src="assets/logo.png"
+                alt="CareerPrep Logo">
+
+            <div>
+
+                <h1>CareerPrep</h1>
+
+                <p>
+                    AI Interview Preparation Assistant
+                </p>
+
+            </div>
+        </div>
+
+    </header>
+    
+
+    <main class="container">
+
+        <!-- ========================= -->
+        <!-- Header -->
+        <!-- ========================= -->
+
+        <section class="hero">
+
+            <div class="hero-icon">
+                <i class="fa-solid fa-book-open"></i>
+            </div>
+
+            <h1>
+                AI Interview Preparation
+            </h1>
+
+            <p>
+
+                Generate personalized interview questions,
+                ideal answers and preparation material
+                based on your Resume and Job Description.
+
+            </p>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Configuration Card -->
+        <!-- ========================= -->
+
+        <section class="config-card">
+
+            <h2>
+
+                <i class="fa-solid fa-sliders"></i>
+
+                Interview Configuration
+
+            </h2>
+
+            <div class="form-grid">
+
+                <div class="input-group">
+
+                    <label>
+
+                        Interview Mode
+
+                    </label>
+
+                    <select id="interviewMode">
+
+                        <option>
+                            Technical
+                        </option>
+
+                        <option>
+                            Project Based
+                        </option>
+
+                        <option>
+                            HR
+                        </option>
+
+                        <option>
+                            Scenario Based
+                        </option>
+
+                        <option selected>
+                            Mixed Mock Interview
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>
+
+                        Difficulty
+
+                    </label>
+
+                    <select id="difficulty">
+
+                        <option>
+                            Easy
+                        </option>
+
+                        <option>
+                            Medium
+                        </option>
+
+                        <option>
+                            Hard
+                        </option>
+
+                        <option selected>
+                            Mixed
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>
+
+                        Number of Questions
+
+                    </label>
+
+                    <select id="questionCount">
+
+                        <option>2</option>
+
+                        <option selected>3</option>
+
+                        <option>4</option>
+
+                        <option>5</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button
+                id="generateBtn"
+                class="generate-btn"
+            >
+
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                Generate Preparation Material
+
+            </button>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Loading -->
+        <!-- ========================= -->
+
+        <section
+            id="loadingSection"
+            class="loading hidden"
+        >
+
+            <div class="spinner"></div>
+
+            <p>
+
+                Preparing personalized interview guide...
+
+            </p>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Generated Questions -->
+        <!-- ========================= -->
+
+        <section
+            id="questionsContainer"
+            class="questions hidden"
+        >
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Download -->
+        <!-- ========================= -->
+
+        <section
+            id="downloadSection"
+            class="download hidden"
+        >
+
+            <button class="download-btn">
+
+                <i class="fa-solid fa-file-pdf"></i>
+
+                Download PDF
+
+            </button>
+
+        </section>
+
+    </main>
+
+    <script src="js/config.js?v=3"></script>
+    <script src="js/storage.js?v=2"></script>
+    <script src="js/api.js?v=3"></script>
+    <script src="js/interview-preparation.js?v=1"></script>
+
+</body>
+
+</html>

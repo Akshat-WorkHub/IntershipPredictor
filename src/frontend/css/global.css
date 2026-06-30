@@ -1,0 +1,775 @@
+/* ==========================================
+   Google Font + Reset
+========================================== */
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+    font-family:"Poppins",sans-serif;
+
+}
+
+:root{
+
+    /* ======================================
+       Colors
+    ====================================== */
+
+    --page-bg:#090909;
+
+    --surface:#171717;
+
+    --surface-raised:#202020;
+
+    --surface-muted:#111111;
+
+    --border:#303030;
+
+    /* ======================================
+       Typography
+    ====================================== */
+
+    --text:#fafafa;
+
+    --text-muted:#9ca3af;
+
+    /* ======================================
+       Brand
+    ====================================== */
+
+    --primary:#ffffff;
+
+    --primary-hover:#e5e7eb;
+
+    --accent:#60a5fa;
+
+    /* ======================================
+       Status
+    ====================================== */
+
+    --success:#22c55e;
+
+    --warning:#f59e0b;
+
+    --danger:#ef4444;
+
+    /* ======================================
+       Effects
+    ====================================== */
+
+    --shadow:
+
+        0 10px 35px
+
+        rgba(0,0,0,.45);
+
+}
+
+/* ==========================================
+   Body
+========================================== */
+
+body{
+
+    background:
+
+        radial-gradient(
+
+            circle at top,
+
+            #171717 0%,
+
+            #101010 40%,
+
+            #090909 100%
+
+        );
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    text-rendering:optimizeLegibility;
+
+    -webkit-font-smoothing:antialiased;
+
+}
+
+/* ==========================================
+   Container
+========================================== */
+
+.container{
+
+    width:min(1180px,94%);
+
+    margin:auto;
+
+    padding:42px 0 80px;
+
+}
+
+/* ==========================================
+   Navbar
+========================================== */
+
+.navbar{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    display:flex;
+
+    align-items:center;
+
+    width:100%;
+
+    padding:14px 42px;
+
+    background:
+
+        rgba(12,12,12,.88);
+
+    backdrop-filter:
+
+        blur(18px);
+
+    border-bottom:
+
+        1px solid
+
+        rgba(255,255,255,.08);
+
+}
+
+/* ==========================================
+   Logo
+========================================== */
+
+.logo-section{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.logo-section img{
+
+    height:58px;
+
+    width:auto;
+
+    border-radius:10px;
+
+}
+
+.logo-section h1{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+.logo-section p{
+
+    margin-top:4px;
+
+    color:var(--text-muted);
+
+    font-size:15px;
+
+    font-weight:400;
+
+}
+
+/* ==========================================
+   Cards
+========================================== */
+
+.upload-card,
+.form-card,
+.result-card{
+
+    background:
+        linear-gradient(
+            180deg,
+            #1b1b1b,
+            #161616
+        );
+
+    border:1px solid rgba(255,255,255,.06);
+
+    border-radius:18px;
+
+    padding:34px;
+
+    margin-bottom:32px;
+
+    box-shadow:var(--shadow);
+
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+
+}
+
+.upload-card:hover,
+.form-card:hover,
+.result-card:hover{
+
+    transform:translateY(-2px);
+
+    border-color:rgba(255,255,255,.12);
+
+}
+
+/* ==========================================
+   Typography
+========================================== */
+
+h2{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    margin-bottom:14px;
+
+    color:var(--text);
+
+}
+
+h3{
+
+    color:var(--text);
+
+}
+
+p{
+
+    color:var(--text-muted);
+
+    line-height:1.75;
+
+    font-size:15px;
+
+}
+
+/* ==========================================
+   Labels
+========================================== */
+
+label{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    color:#d4d4d8;
+
+    font-weight:600;
+
+    font-size:14px;
+
+}
+
+/* ==========================================
+   Inputs
+========================================== */
+
+input,
+select{
+
+    width:100%;
+
+    margin-top:8px;
+
+    padding:15px 16px;
+
+    background:#101010;
+
+    color:#fafafa;
+
+    border:1px solid #333333;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    transition:.25s;
+
+}
+
+input::placeholder{
+
+    color:#6b7280;
+
+}
+
+input:focus,
+select:focus{
+
+    outline:none;
+
+    border-color:#666666;
+
+    background:#151515;
+
+    box-shadow:
+
+        0 0 0 4px
+
+        rgba(255,255,255,.04);
+
+}
+
+/* ==========================================
+   Range Slider
+========================================== */
+
+input[type="range"]{
+
+    accent-color:#ffffff;
+
+    cursor:pointer;
+
+}
+
+/* ==========================================
+   Buttons
+========================================== */
+
+button{
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    cursor:pointer;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:15px 26px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    background:#ffffff;
+
+    color:#090909;
+
+    transition:
+        background .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+button:hover{
+
+    background:#e5e7eb;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(255,255,255,.12);
+
+}
+
+button:disabled{
+
+    cursor:not-allowed;
+
+    opacity:.55;
+
+    transform:none;
+
+    box-shadow:none;
+
+}
+
+button:focus-visible{
+
+    outline:3px solid rgba(255,255,255,.18);
+
+    outline-offset:3px;
+
+}
+
+/* ==========================================
+   Progress
+========================================== */
+
+.progress-container{
+
+    width:100%;
+
+    height:12px;
+
+    margin-top:24px;
+
+    background:#242424;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+}
+
+.progress-bar{
+
+    width:0;
+
+    height:100%;
+
+    border-radius:999px;
+
+    background:
+
+        linear-gradient(
+
+            90deg,
+
+            #ffffff,
+
+            #cfcfcf
+
+        );
+
+    transition:width .6s ease;
+
+}
+
+/* ==========================================
+   Status Card
+========================================== */
+
+.status-card{
+
+    margin-top:22px;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    background:#1d1d1d;
+
+    border:1px solid #303030;
+
+    color:var(--text);
+
+    line-height:1.7;
+
+}
+
+/* ==========================================
+   Loader
+========================================== */
+
+.loader-section{
+
+    display:none;
+
+    text-align:center;
+
+    margin:70px 0;
+
+}
+
+.loader{
+
+    width:70px;
+
+    height:70px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    border:6px solid #2d2d2d;
+
+    border-top:6px solid #ffffff;
+
+    animation:spin 1s linear infinite;
+
+}
+
+.loader-section p{
+
+    margin-top:18px;
+
+    color:var(--text-muted);
+
+}
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/* ==========================================
+   Utility
+========================================== */
+
+.button-container{
+
+    margin-top:36px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:18px;
+
+    flex-wrap:wrap;
+
+}
+
+.button-container button{
+
+    min-width:280px;
+
+}
+
+/* ==========================================
+   Sections
+========================================== */
+
+.result-section{
+
+    display:none;
+
+}
+
+.hidden{
+
+    display:none !important;
+
+}
+
+.show{
+
+    display:block;
+
+}
+
+/* ==========================================
+   Scrollbar
+========================================== */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#0d0d0d;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#3b3b3b;
+
+    border-radius:999px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#5b5b5b;
+
+}
+
+/* ==========================================
+   Selection
+========================================== */
+
+::selection{
+
+    background:#ffffff;
+
+    color:#000000;
+
+}
+
+/* ==========================================
+   Links
+========================================== */
+
+a{
+
+    color:var(--text);
+
+    text-decoration:none;
+
+    transition:.25s;
+
+}
+
+a:hover{
+
+    color:#d4d4d8;
+
+}
+
+/* ==========================================
+   Smooth Scroll
+========================================== */
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media(max-width:992px){
+
+    .container{
+
+        width:94%;
+
+        padding:30px 0 60px;
+
+    }
+
+    .upload-card,
+    .form-card,
+    .result-card{
+
+        padding:28px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .navbar{
+
+        padding:14px 20px;
+
+    }
+
+    .logo-section{
+
+        gap:12px;
+
+    }
+
+    .logo-section img{
+
+        height:46px;
+
+    }
+
+    .logo-section h1{
+
+        font-size:22px;
+
+    }
+
+    .logo-section p{
+
+        font-size:13px;
+
+    }
+
+    .container{
+
+        width:94%;
+
+        padding:24px 0 50px;
+
+    }
+
+    h2{
+
+        font-size:26px;
+
+    }
+
+    button{
+
+        width:100%;
+
+    }
+
+    .button-container{
+
+        flex-direction:column;
+
+    }
+
+    .button-container button{
+
+        width:100%;
+
+        min-width:auto;
+
+    }
+
+}
+
+@media(max-width:480px){
+
+    .upload-card,
+    .form-card,
+    .result-card{
+
+        padding:22px;
+
+    }
+
+    h2{
+
+        font-size:22px;
+
+    }
+
+    p{
+
+        font-size:14px;
+
+    }
+
+}
